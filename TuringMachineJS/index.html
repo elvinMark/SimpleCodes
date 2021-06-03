@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <title>Test</title>
+    <script src="turingM.js"></script>
+  </head>
+  <body>
+    <div style="width:100%;height:100%">
+    <div style="float:left;width:50%">
+    <table>
+      <tr>
+	<td>
+	  <p>Introduce blank symbol: </p>
+	</td>
+	<td>
+	  <input type="text" value='B' id="b"></input>
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  <p>Introduce states: </p>
+	</td>
+	<td>
+	  <input type="text" value="['q0','q1','q2','qf']" id="s"></input>
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  <p>Introduce transtion between states: </p>
+	</td>
+	<td>
+	  <input type="text" value='{"q0" : {"0" : ["0","R","q0"],"1" : ["1","R","q0"],"B" : ["B","L","q1"]},"q1" : {"0" : ["1","L","q2"],"1" : ["0","L","q1"]}, "q2" : {"0" : ["0","L","q2"],"1" : ["1","L","q2"],"B" : ["B","R","qf"]}}' id="t"></input>
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  <p>Initial value: </p>
+	</td>
+	<td>
+	  <input type="text" value="100101" id="i"></input>
+	</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+	<td>
+	  <button onclick='run()'>Start</button>
+	</td>
+	<td>
+	  <button onclick='draw()'>Draw</button>
+	</td>
+      </tr>
+    </table>
+    <canvas id="mycanvas" width="500" height="500"></canvas>
+    </div>
+    <div style="float:left;width:50%">
+      <textarea id="o" style="float:right;width:100%;height:100%"></textarea>
+    </div>
+    </div>
+    <script>
+      var tm;
+      function run(){
+       var b = document.getElementById("b");
+       var s = document.getElementById("s");
+       var t = document.getElementById("t");
+       var i = document.getElementById("i");
+       var o = document.getElementById("o");
+       tm = new turingMachine(b.value,s.value,t.value,20);
+       tm.set_input(i.value);
+       tm.run();
+       o.value = "";
+       for(elem in tm.history){
+        o.value = o.value + '\n' + tm.history[elem];
+       }
+      }
+      function draw(){
+      var c = document.getElementById("mycanvas");
+      var ctx = c.getContext("2d");
+      tm.draw_machine(ctx,500,500);
+      }
+    </script>
+  </body>
+</html>

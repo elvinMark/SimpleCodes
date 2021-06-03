@@ -1,0 +1,10 @@
+main
+mov $10 %rax
+cmp $0 %rax
+jl L0
+jmp L1
+L1
+ret
+L0
+mul $2 %rax
+jmp L1
